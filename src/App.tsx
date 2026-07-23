@@ -21,6 +21,24 @@ export default function App() {
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
   const [language, setLanguage] = useState<Language>('en');
 
+  // Sidebar collapse state
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('klyro_sidebar_collapsed');
+      return saved ? JSON.parse(saved) : false;
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('klyro_sidebar_collapsed', JSON.stringify(isSidebarCollapsed));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [isSidebarCollapsed]);
+
   // Handle Theme application
   useEffect(() => {
     const root = document.documentElement;
@@ -151,10 +169,16 @@ export default function App() {
             onToggleTheme={(t) => setTheme(t)}
             language={language}
             onChangeLanguage={(l) => setLanguage(l)}
+            isCollapsed={isSidebarCollapsed}
+            onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
           />
 
           {/* Main App Workspace */}
-          <div className="flex-1 flex flex-col min-w-0 lg:pl-64 transition-all duration-300">
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out ${
+              isSidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
+            }`}
+          >
             <Header
               session={session}
               onLogout={() => {

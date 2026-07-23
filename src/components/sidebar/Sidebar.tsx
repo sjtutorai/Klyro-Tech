@@ -38,6 +38,8 @@ interface SidebarProps {
   onToggleTheme: (theme: 'light' | 'dark' | 'system') => void;
   language: Language;
   onChangeLanguage: (lang: Language) => void;
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -52,9 +54,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleTheme,
   language,
   onChangeLanguage,
+  isCollapsed: controlledIsCollapsed,
+  onToggleCollapse,
 }) => {
   // Collapsed state persisted in localStorage
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+  const [internalCollapsed, setInternalCollapsed] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('klyro_sidebar_collapsed');
       return saved ? JSON.parse(saved) : false;
@@ -62,6 +66,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return false;
     }
   });
+
+  const isCollapsed = controlledIsCollapsed !== undefined ? controlledIsCollapsed : internalCollapsed;
+
+  const handleToggleCollapse = () => {
+    if (onToggleCollapse) {
+      onToggleCollapse();
+    } else {
+      setInternalCollapsed((prev) => !prev);
+    }
+  };
 
   // Mobile drawer state
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -176,7 +190,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Desktop Collapse Toggle Button */}
           <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleToggleCollapse}
             className="hidden lg:flex items-center justify-center p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition cursor-pointer"
             title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           >
