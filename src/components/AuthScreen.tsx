@@ -37,12 +37,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 }) => {
   const [activePortal, setActivePortal] = useState<UserRole>('principal');
 
-  // Form Fields
+  // Form Fields - Start completely clean without autofilled credentials
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(initialPassword || '');
-  const [registerNumber, setRegisterNumber] = useState(initialRegNumber || 'NXS-2026-0001');
-  const [teacherEmail, setTeacherEmail] = useState('priya.english@greenwood.edu.in');
-  const [studentId, setStudentId] = useState('STU-1021');
+  const [password, setPassword] = useState('');
+  const [registerNumber, setRegisterNumber] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
+  const [studentId, setStudentId] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -244,8 +244,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <button
             onClick={() => {
               setActivePortal('super_admin');
-              setEmail('sadanandj2011@gmail.com');
-              setPassword('klyro@2026');
+              setErrorMessage('');
             }}
             className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
               activePortal === 'super_admin'
@@ -260,8 +259,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <button
             onClick={() => {
               setActivePortal('principal');
-              setRegisterNumber('NXS-2026-0001');
-              setPassword('29180102001');
+              setErrorMessage('');
             }}
             className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
               activePortal === 'principal'
@@ -276,8 +274,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <button
             onClick={() => {
               setActivePortal('teacher');
-              setRegisterNumber('NXS-2026-0001');
-              setTeacherEmail('priya.english@greenwood.edu.in');
+              setErrorMessage('');
             }}
             className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
               activePortal === 'teacher'
@@ -292,8 +289,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           <button
             onClick={() => {
               setActivePortal('student');
-              setRegisterNumber('NXS-2026-0001');
-              setStudentId('STU-1021');
+              setErrorMessage('');
             }}
             className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
               activePortal === 'student'
@@ -324,7 +320,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="sadanandj2011@gmail.com"
+                  placeholder="Enter email address"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
@@ -336,7 +332,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="klyro@2026"
+                  placeholder="Enter password"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
@@ -352,7 +348,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={registerNumber}
                   onChange={(e) => setRegisterNumber(e.target.value)}
-                  placeholder="e.g. NXS-2026-0001"
+                  placeholder="e.g. SCH-2026-0001"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600 font-mono"
                 />
               </div>
@@ -364,7 +360,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="29180102001"
+                  placeholder="Enter password / UDISE code"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600"
                 />
               </div>
@@ -380,7 +376,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={registerNumber}
                   onChange={(e) => setRegisterNumber(e.target.value)}
-                  placeholder="NXS-2026-0001"
+                  placeholder="e.g. SCH-2026-0001"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 font-mono"
                 />
               </div>
@@ -392,7 +388,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={teacherEmail}
                   onChange={(e) => setTeacherEmail(e.target.value)}
-                  placeholder="priya.english@greenwood.edu.in"
+                  placeholder="Enter teacher email address"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400"
                 />
               </div>
@@ -404,7 +400,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter password"
                   className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400"
                 />
               </div>
@@ -420,8 +416,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={registerNumber}
                   onChange={(e) => setRegisterNumber(e.target.value)}
-                  placeholder="NXS-2026-0001"
-                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 font-mono"
+                  placeholder="e.g. SCH-2026-0001"
+                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 font-mono placeholder:text-slate-400"
                 />
               </div>
 
@@ -432,8 +428,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={studentId}
                   onChange={(e) => setStudentId(e.target.value)}
-                  placeholder="STU-1021"
-                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 font-mono"
+                  placeholder="Enter Student ID"
+                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 font-mono placeholder:text-slate-400"
                 />
               </div>
 
@@ -444,8 +440,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900"
+                  placeholder="Enter password"
+                  className="w-full p-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400"
                 />
               </div>
             </>

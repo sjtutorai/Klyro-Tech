@@ -248,99 +248,199 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ session }) =
         </div>
       </div>
 
-      {/* Dashboard Cards Grid (Quick Nav) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-        <button
-          onClick={() => setActiveTab('homework')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'homework'
-              ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <BookOpen className={`w-4 h-4 mb-2 ${activeTab === 'homework' ? 'text-white' : 'text-indigo-600'}`} />
-          <div className="text-xs font-bold">Homework</div>
-          <div className={`text-[10px] ${activeTab === 'homework' ? 'opacity-90' : 'text-slate-500'}`}>{homeworks.length} Active</div>
-        </button>
+      {/* Sidebar + Main Content Layout */}
+      <div className="flex flex-col md:flex-row gap-5 items-start">
+        {/* Left Icon-Only Navigation Sidebar */}
+        <aside className="w-full md:w-16 flex-shrink-0 flex md:flex-col gap-2.5 p-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs sticky top-20 z-20 overflow-x-auto md:overflow-visible">
+          {/* Homework Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('homework')}
+              title={`Homework (${homeworks.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'homework'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <BookOpen className="w-5 h-5" />
+              {homeworks.length > 0 && (
+                <span className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold border-2 border-white flex items-center justify-center ${
+                  activeTab === 'homework' ? 'bg-amber-400 text-slate-950' : 'bg-indigo-600 text-white'
+                }`}>
+                  {homeworks.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5">
+                <span>Homework Assignments</span>
+                <span className="text-indigo-300 font-mono text-[11px]">({homeworks.length})</span>
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('sos')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'sos'
-              ? 'bg-rose-600 text-white border-rose-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Siren className={`w-4 h-4 mb-2 ${activeTab === 'sos' ? 'text-white' : 'text-rose-600'}`} />
-          <div className="text-xs font-bold">SOS Alerts</div>
-          <div className={`text-[10px] ${activeTab === 'sos' ? 'opacity-90' : 'text-slate-500'}`}>{sosAlerts.length} Alerts</div>
-        </button>
+          {/* SOS Alerts Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('sos')}
+              title={`SOS Alerts (${sosAlerts.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'sos'
+                  ? 'bg-rose-600 text-white shadow-md shadow-rose-200 scale-105'
+                  : 'bg-slate-50 hover:bg-rose-50 text-rose-600 border border-rose-200/80'
+              }`}
+            >
+              <Siren className="w-5 h-5 animate-pulse" />
+              {sosAlerts.length > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold bg-rose-600 text-white border-2 border-white flex items-center justify-center animate-bounce">
+                  {sosAlerts.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-rose-950 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5 border border-rose-800">
+                <span>SOS Emergency Desk</span>
+                <span className="text-rose-300 font-mono text-[11px]">({sosAlerts.length})</span>
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('achievements')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'achievements'
-              ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Award className={`w-4 h-4 mb-2 ${activeTab === 'achievements' ? 'text-white' : 'text-amber-600'}`} />
-          <div className="text-xs font-bold">Achievements</div>
-          <div className={`text-[10px] ${activeTab === 'achievements' ? 'opacity-90' : 'text-slate-500'}`}>{achievements.length} Badges</div>
-        </button>
+          {/* Achievements Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('achievements')}
+              title={`Achievements (${achievements.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'achievements'
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <Award className="w-5 h-5" />
+              {achievements.length > 0 && (
+                <span className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold border-2 border-white flex items-center justify-center ${
+                  activeTab === 'achievements' ? 'bg-indigo-900 text-white' : 'bg-amber-600 text-white'
+                }`}>
+                  {achievements.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5">
+                <span>Badges & Achievements</span>
+                <span className="text-amber-300 font-mono text-[11px]">({achievements.length})</span>
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('timetable')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'timetable'
-              ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Clock className={`w-4 h-4 mb-2 ${activeTab === 'timetable' ? 'text-white' : 'text-purple-600'}`} />
-          <div className="text-xs font-bold">Timetable</div>
-          <div className={`text-[10px] ${activeTab === 'timetable' ? 'opacity-90' : 'text-slate-500'}`}>Weekly Schedule</div>
-        </button>
+          {/* Timetable Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('timetable')}
+              title="Class Timetable"
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'timetable'
+                  ? 'bg-purple-600 text-white shadow-md shadow-purple-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <Clock className="w-5 h-5" />
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap">
+                Class Timetable
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('notices')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'notices'
-              ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Bell className={`w-4 h-4 mb-2 ${activeTab === 'notices' ? 'text-white' : 'text-blue-600'}`} />
-          <div className="text-xs font-bold">Notices</div>
-          <div className={`text-[10px] ${activeTab === 'notices' ? 'opacity-90' : 'text-slate-500'}`}>{notices.length} Published</div>
-        </button>
+          {/* Notices Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('notices')}
+              title={`Notices (${notices.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'notices'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <Bell className="w-5 h-5" />
+              {notices.length > 0 && (
+                <span className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold border-2 border-white flex items-center justify-center ${
+                  activeTab === 'notices' ? 'bg-amber-400 text-slate-950' : 'bg-blue-600 text-white'
+                }`}>
+                  {notices.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5">
+                <span>Notices</span>
+                <span className="text-blue-300 font-mono text-[11px]">({notices.length})</span>
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('events')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'events'
-              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Calendar className={`w-4 h-4 mb-2 ${activeTab === 'events' ? 'text-white' : 'text-emerald-600'}`} />
-          <div className="text-xs font-bold">Events</div>
-          <div className={`text-[10px] ${activeTab === 'events' ? 'opacity-90' : 'text-slate-500'}`}>{events.length} Upcoming</div>
-        </button>
+          {/* Events Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('events')}
+              title={`Events (${events.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'events'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <Calendar className="w-5 h-5" />
+              {events.length > 0 && (
+                <span className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold border-2 border-white flex items-center justify-center ${
+                  activeTab === 'events' ? 'bg-amber-400 text-slate-950' : 'bg-emerald-600 text-white'
+                }`}>
+                  {events.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5">
+                <span>School Events</span>
+                <span className="text-emerald-300 font-mono text-[11px]">({events.length})</span>
+              </div>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab('students')}
-          className={`p-3.5 rounded-2xl border text-left transition ${
-            activeTab === 'students'
-              ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
-              : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
-          }`}
-        >
-          <Users className={`w-4 h-4 mb-2 ${activeTab === 'students' ? 'text-white' : 'text-teal-600'}`} />
-          <div className="text-xs font-bold">My Students</div>
-          <div className={`text-[10px] ${activeTab === 'students' ? 'opacity-90' : 'text-slate-500'}`}>{students.length} Total</div>
-        </button>
-      </div>
+          {/* Students Tab */}
+          <div className="relative group flex justify-center">
+            <button
+              onClick={() => setActiveTab('students')}
+              title={`My Students (${students.length})`}
+              className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === 'students'
+                  ? 'bg-teal-600 text-white shadow-md shadow-teal-200 scale-105'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/60'
+              }`}
+            >
+              <Users className="w-5 h-5" />
+              {students.length > 0 && (
+                <span className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold border-2 border-white flex items-center justify-center ${
+                  activeTab === 'students' ? 'bg-amber-400 text-slate-950' : 'bg-teal-600 text-white'
+                }`}>
+                  {students.length}
+                </span>
+              )}
+            </button>
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center z-50 pointer-events-none">
+              <div className="bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1.5">
+                <span>My Class Students</span>
+                <span className="text-teal-300 font-mono text-[11px]">({students.length})</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Dashboard Main Content Area */}
+        <main className="flex-1 min-w-0 w-full space-y-6">
 
       {/* TAB: HOMEWORK MODULE */}
       {activeTab === 'homework' && (
@@ -555,6 +655,8 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ session }) =
           </div>
         </div>
       )}
+        </main>
+      </div>
 
       {/* Create Homework Modal */}
       {showHomeworkModal && (
