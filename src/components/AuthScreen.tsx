@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import {
   ShieldCheck,
   School as SchoolIcon,
@@ -239,67 +240,40 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           </p>
         </div>
 
-        {/* Portal Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1.5 bg-slate-100/80 rounded-xl border border-slate-200/80">
-          <button
-            onClick={() => {
-              setActivePortal('super_admin');
-              setErrorMessage('');
-            }}
-            className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
-              activePortal === 'super_admin'
-                ? 'bg-amber-500 text-slate-950 shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Super Admin
-          </button>
+        {/* Overall Slide Navigation Bar for All Logins */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 shadow-inner">
+          {[
+            { id: 'super_admin', label: 'Super Admin', icon: ShieldCheck, colorClass: 'bg-amber-500 text-slate-950 font-bold shadow-xs' },
+            { id: 'principal', label: 'Principal', icon: SchoolIcon, colorClass: 'bg-purple-600 text-white font-bold shadow-xs' },
+            { id: 'teacher', label: 'Teacher', icon: BookOpen, colorClass: 'bg-indigo-600 text-white font-bold shadow-xs' },
+            { id: 'student', label: 'Student', icon: GraduationCap, colorClass: 'bg-emerald-600 text-white font-bold shadow-xs' },
+          ].map((portal) => {
+            const Icon = portal.icon;
+            const isActive = activePortal === portal.id;
+            return (
+              <button
+                key={portal.id}
+                onClick={() => {
+                  setActivePortal(portal.id as UserRole);
+                  setErrorMessage('');
+                }}
+                className={`relative py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors z-10 cursor-pointer ${
+                  isActive ? portal.colorClass : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-current' : 'text-slate-500'}`} />
+                <span>{portal.label}</span>
 
-          <button
-            onClick={() => {
-              setActivePortal('principal');
-              setErrorMessage('');
-            }}
-            className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
-              activePortal === 'principal'
-                ? 'bg-purple-600 text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <SchoolIcon className="w-3.5 h-3.5" />
-            Principal
-          </button>
-
-          <button
-            onClick={() => {
-              setActivePortal('teacher');
-              setErrorMessage('');
-            }}
-            className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
-              activePortal === 'teacher'
-                ? 'bg-indigo-600 text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            Teacher
-          </button>
-
-          <button
-            onClick={() => {
-              setActivePortal('student');
-              setErrorMessage('');
-            }}
-            className={`py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
-              activePortal === 'student'
-                ? 'bg-emerald-600 text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <GraduationCap className="w-3.5 h-3.5" />
-            Student
-          </button>
+                {isActive && (
+                  <motion.div
+                    layoutId="authLoginSlide"
+                    className={`absolute inset-0 rounded-xl ${portal.colorClass} -z-10`}
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Error Message */}
@@ -456,43 +430,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           </button>
         </form>
 
-        {/* Quick Instant Demo Login for Judges */}
-        <div className="pt-4 border-t border-slate-200/80 space-y-2">
-          <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            Instant One-Click Demo Access for Judges
-          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <button
-              onClick={() => handleQuickDemoLogin('super_admin')}
-              className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100/80 border border-amber-200/60 text-amber-800 text-[11px] font-bold text-center transition shadow-2xs"
-            >
-              👑 Super Admin
-            </button>
-
-            <button
-              onClick={() => handleQuickDemoLogin('principal')}
-              className="p-2.5 rounded-xl bg-purple-50 hover:bg-purple-100/80 border border-purple-200/60 text-purple-800 text-[11px] font-bold text-center transition shadow-2xs"
-            >
-              🏫 Principal
-            </button>
-
-            <button
-              onClick={() => handleQuickDemoLogin('teacher')}
-              className="p-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100/80 border border-indigo-200/60 text-indigo-800 text-[11px] font-bold text-center transition shadow-2xs"
-            >
-              👨‍🏫 Teacher
-            </button>
-
-            <button
-              onClick={() => handleQuickDemoLogin('student')}
-              className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/60 text-emerald-800 text-[11px] font-bold text-center transition shadow-2xs"
-            >
-              👨‍🎓 Student
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* Footer */}
