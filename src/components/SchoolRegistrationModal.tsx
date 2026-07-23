@@ -85,16 +85,16 @@ export const SchoolRegistrationModal: React.FC<SchoolRegistrationModalProps> = (
 
   // Step 1: School Info State
   const [schoolDetails, setSchoolDetails] = useState({
-    name: 'National Public School',
-    udiseCode: '29180108842',
-    email: 'admin@npscampus.edu.in',
-    phone: '+91 98450 12345',
-    address: '100 Feet Ring Road, Indiranagar',
-    district: 'Bengaluru Urban',
-    state: 'Karnataka',
-    pincode: '560038',
-    website: 'https://npscampus.edu.in',
-    logoUrl: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=150&auto=format&fit=crop&q=80',
+    name: '',
+    udiseCode: '',
+    email: '',
+    phone: '',
+    address: '',
+    district: '',
+    state: '',
+    pincode: '',
+    website: '',
+    logoUrl: '',
   });
 
   // Step 1: Academic Details State
@@ -103,42 +103,21 @@ export const SchoolRegistrationModal: React.FC<SchoolRegistrationModalProps> = (
     board: 'CBSE (Central Board of Secondary Education)',
     classesAvailable: ['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10'],
     totalSections: '4',
-    totalStudentsApprox: '1200',
-    totalTeachersApprox: '45',
+    totalStudentsApprox: '',
+    totalTeachersApprox: '',
   });
 
   // Step 2: Principal State
   const [principalInfo, setPrincipalInfo] = useState({
-    name: 'Dr. Vikramaditya Roy',
-    email: 'principal@npscampus.edu.in',
-    phone: '+91 98450 99999',
-    designation: 'Principal & Academic Director',
-    photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    name: '',
+    email: '',
+    phone: '',
+    designation: 'Principal',
+    photoUrl: '',
   });
 
   // Step 3: Teachers List State
-  const [teachers, setTeachers] = useState<Omit<Teacher, 'id' | 'schoolId' | 'createdAt'>[]>([
-    {
-      name: 'Mrs. Priya Sharma',
-      email: 'priya.english@npscampus.edu.in',
-      phone: '+91 98765 11111',
-      employeeId: 'EMP-001',
-      subject: 'English',
-      qualification: 'M.A., B.Ed',
-      classesAssigned: ['6', '7', '8'],
-      sectionsAssigned: ['A', 'B', 'C'],
-    },
-    {
-      name: 'Mr. Rajesh Verma',
-      email: 'rajesh.maths@npscampus.edu.in',
-      phone: '+91 98765 22222',
-      employeeId: 'EMP-002',
-      subject: 'Mathematics',
-      qualification: 'M.Sc, B.Ed',
-      classesAssigned: ['8', '9', '10'],
-      sectionsAssigned: ['A', 'B'],
-    },
-  ]);
+  const [teachers, setTeachers] = useState<Omit<Teacher, 'id' | 'schoolId' | 'createdAt'>[]>([]);
 
   // Step 3: Inline Teacher Form State
   const [newTeacher, setNewTeacher] = useState({
@@ -148,8 +127,8 @@ export const SchoolRegistrationModal: React.FC<SchoolRegistrationModalProps> = (
     employeeId: '',
     subject: 'Mathematics',
     qualification: '',
-    classes: '6,7,8',
-    sections: 'A,B',
+    classes: '',
+    sections: '',
   });
   const [editingTeacherIndex, setEditingTeacherIndex] = useState<number | null>(null);
 
@@ -181,10 +160,12 @@ export const SchoolRegistrationModal: React.FC<SchoolRegistrationModalProps> = (
       const saved = localStorage.getItem(DRAFT_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.schoolDetails) setSchoolDetails(parsed.schoolDetails);
-        if (parsed.academicDetails) setAcademicDetails(parsed.academicDetails);
-        if (parsed.principalInfo) setPrincipalInfo(parsed.principalInfo);
-        if (parsed.teachers) setTeachers(parsed.teachers);
+        if (parsed.schoolDetails && parsed.schoolDetails.name && parsed.schoolDetails.name !== 'National Public School') {
+          setSchoolDetails(parsed.schoolDetails);
+          if (parsed.academicDetails) setAcademicDetails(parsed.academicDetails);
+          if (parsed.principalInfo) setPrincipalInfo(parsed.principalInfo);
+          if (parsed.teachers) setTeachers(parsed.teachers);
+        }
       }
     } catch {
       // ignore
@@ -613,6 +594,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.name}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, name: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -625,6 +607,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.udiseCode}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, udiseCode: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 font-mono"
@@ -637,6 +620,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="email"
                     required
+                    autoComplete="off"
                     value={schoolDetails.email}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, email: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -649,6 +633,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.phone}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, phone: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -661,6 +646,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.address}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, address: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -673,6 +659,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.district}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, district: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -685,6 +672,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.state}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, state: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
@@ -697,6 +685,7 @@ Timestamp:             ${new Date().toLocaleString()}
                   <input
                     type="text"
                     required
+                    autoComplete="off"
                     value={schoolDetails.pincode}
                     onChange={(e) => setSchoolDetails({ ...schoolDetails, pincode: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200/90 text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"

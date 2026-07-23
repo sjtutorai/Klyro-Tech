@@ -158,7 +158,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Sidebar Header: Brand & Collapse Toggle */}
         <div className="p-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 flex-shrink-0">
           <div className="flex items-center gap-3 min-w-0">
-            <NexusLogo className="w-8 h-8 text-indigo-600 flex-shrink-0" />
+            <NexusLogo size={32} showText={false} className="flex-shrink-0" />
             {(!isCollapsed || isMobileOpen) && (
               <div className="min-w-0">
                 <div className="font-black text-sm text-slate-900 dark:text-slate-100 tracking-tight truncate flex items-center gap-1.5">

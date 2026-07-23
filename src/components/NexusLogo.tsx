@@ -127,11 +127,11 @@ export const NexusLogo: React.FC<NexusLogoProps> = ({
 
       {showText && (
         <div className="flex flex-col">
-          <span className="text-xl font-black tracking-wider text-white font-mono flex items-center gap-1">
+          <span className="text-xl font-black tracking-wider text-slate-900 dark:text-white font-mono flex items-center gap-1">
             KLYRO TECH
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-500 animate-ping" />
           </span>
-          <span className="text-[9px] font-semibold tracking-widest text-cyan-400 uppercase -mt-1">
+          <span className="text-[9px] font-semibold tracking-widest text-cyan-600 dark:text-cyan-400 uppercase -mt-1">
             Digital Campus
           </span>
         </div>
